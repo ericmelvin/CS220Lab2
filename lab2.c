@@ -1,17 +1,20 @@
 #include <stdio.h>
 #include <string.h>
+
 unsigned long interleaveBitwise(unsigned int i1, unsigned int i2);
 unsigned long interleavePointer(unsigned int i1, unsigned int i2);
+unsigned long interleaveRecursion(unsigned int i1, unsigned int i2);
+unsigned long ilr(unsigned long u, unsigned char* p1, unsigned char* p2, int i);
+
 void printArray(unsigned char *arr, int len);
 void reverseArray(unsigned char *arr);
 void print_raw_bytes(char *start, unsigned int len);
-unsigned long interleaveRecursion(unsigned int i1, unsigned int i2);
-unsigned long ilr(unsigned long u, unsigned char* p1, unsigned char* p2, int i);
 void count_ones(unsigned int n);
+
 int main() {
 	unsigned int i1 = 0x12345678;
 	unsigned int i2 = 0xdeadbeef;
-	printf("0x%x, 0x%x, 0x%lx\n", i1, i2, interleavePointer(i1,i2));
+	//printf("0x%x, 0x%x, 0x%lx\n", i1, i2, interleavePointer(i1,i2));
 	printf("0x%x, 0x%x, 0x%lx\n", i1, i2, interleaveRecursion(i1,i2));
 	unsigned int i = 0xc0de1234;
 	print_raw_bytes((char *) &i, sizeof(i));
@@ -130,19 +133,20 @@ void reverseArray(unsigned char *arr) {
 void print_raw_bytes(char *start, unsigned int len) {
 	// Delete preceding f's (sign bit) by casting to unsigned
 	unsigned char *ustart = start;
+	
 	for (int i=0; i<len; i++) {
 		printf("%p 0x%x\n", &ustart[i], ustart[i]);
 	}
 }
 
-void count_ones(unsigned int n) {
-	
+unsigned int count_ones(unsigned int n) {
 	int ones_count = 0;
+
 	for (int i=0; i<sizeof(n); i++) {
 		if (n & 1 == 1) {
 			ones_count++;
 		}
 		n >>= 1;
 	}
-	printf("ones count: %d", ones_count);
+	return ones_count;
 }
