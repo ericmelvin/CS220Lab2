@@ -9,19 +9,26 @@ unsigned long ilr(unsigned long u, unsigned char* p1, unsigned char* p2, int i);
 void printArray(unsigned char *arr, int len);
 void reverseArray(unsigned char *arr);
 void print_raw_bytes(char *start, unsigned int len);
-void count_ones(unsigned int n);
+unsigned int count_ones(unsigned int n);
 
 int main() {
+	// Question 1
 	unsigned int i1 = 0x12345678;
 	unsigned int i2 = 0xdeadbeef;
-	//printf("0x%x, 0x%x, 0x%lx\n", i1, i2, interleavePointer(i1,i2));
-	printf("0x%x, 0x%x, 0x%lx\n", i1, i2, interleaveRecursion(i1,i2));
+	
+	printf("Question 1:\n0x%x, 0x%x, 0x%lx\n\n", i1, i2, interleaveRecursion(i1,i2));
+	
+	// Question 2
 	unsigned int i = 0xc0de1234;
+	printf("Question 2:\n");
 	print_raw_bytes((char *) &i, sizeof(i));
+	printf("\n");
+
+	// Question 3
+	unsigned int ones = 15;
+	printf("Question 3:\nThe number of ones in the binary representation of %d is %d",
+	ones, count_ones(15));
 	
-	count_ones(15);
-	
-	//printf(print_raw_bytes())
 	return 0;
 }
 
@@ -133,7 +140,7 @@ void reverseArray(unsigned char *arr) {
 void print_raw_bytes(char *start, unsigned int len) {
 	// Delete preceding f's (sign bit) by casting to unsigned
 	unsigned char *ustart = start;
-	
+
 	for (int i=0; i<len; i++) {
 		printf("%p 0x%x\n", &ustart[i], ustart[i]);
 	}
