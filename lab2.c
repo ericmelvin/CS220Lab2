@@ -5,7 +5,7 @@ unsigned long interleaveBitwise(unsigned int i1, unsigned int i2);
 unsigned long interleavePointer(unsigned int i1, unsigned int i2);
 unsigned long interleaveRecursion(unsigned int i1, unsigned int i2);
 unsigned long ilr(unsigned long u, unsigned char* p1, unsigned char* p2, int i);
-
+unsigned long interleaveClass(unsigned int i1, unsigned int i2);
 void printArray(unsigned char *arr, int len);
 void reverseArray(unsigned char *arr);
 void print_raw_bytes(char *start, unsigned int len);
@@ -25,10 +25,9 @@ int main() {
 	printf("\n");
 
 	// Question 3
-	unsigned int ones = 15;
-	printf("Question 3:\nThe number of ones in the binary representation of %d is %d",
-	ones, count_ones(15));
-	
+	unsigned int ones = 0xdeadbeef;
+	printf("Question 3:\nThe number of ones in the binary representation of %x is %d\n", ones, count_ones(ones));
+
 	return 0;
 }
 
@@ -147,13 +146,30 @@ void print_raw_bytes(char *start, unsigned int len) {
 }
 
 unsigned int count_ones(unsigned int n) {
-	int ones_count = 0;
+	unsigned int ones_count = 0;
 
-	for (int i=0; i<sizeof(n); i++) {
+	for (int i=0; i<sizeof(n)*8; i++) {
 		if (n & 1 == 1) {
 			ones_count++;
 		}
 		n >>= 1;
 	}
 	return ones_count;
+}
+
+unsigned long interleaveClass(unsigned int i1, unsigned int i2) {
+	// transform into char array
+	unsigned long res = 0;
+	unsigned char *p1 = (unsigned char*) &i1;
+	unsigned char *p2 = (unsigned char*) &i2;
+	printf("%lu", sizeof(i1));
+	unsigned char *pres = (unsigned char *) &res;
+
+	for (int i = 0; i < sizeof(i1); i++) {
+		pres[2*i] = p1[i];
+		pres[2*i+1] = p2[i];
+	}
+
+	
+	return res;
 }
